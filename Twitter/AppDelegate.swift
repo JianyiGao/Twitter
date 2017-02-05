@@ -52,26 +52,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print ("Got the access token.")
             
             twitterClient?.get("1.1/account/verify_credentials.json", parameters: nil, progress: nil, success: { (task: URLSessionDataTask, response: Any?) in
-                //print("account: \(response)")
-                let user = response as! NSDictionary
-                let userName = ("user name: \(user["name"])")
-                print (userName)
+                
+                let userDictionary = response as! NSDictionary
+                let user = User(dictionary: userDictionary)
+               
+                print("name: \(user.name)")
+                print("screenName: \(user.screenName)")
+                print("profile url: \(user.profileUrl)")
+                print("description: \(user.tagline)")
+                
+                
                 
             }, failure: { (task: URLSessionDataTask?, Error) in
                 
             })
             
-            /* Request failed : not found (404)
-            twitterClient?.get("1.1/status/home_timeline.json", parameters: nil, progress: nil, success: { (task: URLSessionDataTask, response: Any?) in
-                print ("Success in timeline.")
+            // Request failed : not found (404)
+            twitterClient?.get("1.1/statuses/home_timeline.json", parameters: nil, progress: nil, success: { (task: URLSessionDataTask, response: Any?) in
+                let dictionaries = response as! [NSDictionary]
                 
+                let tweets = Tweet.tweetsWithArray(dictionaries: dictionaries)
+                for tweet in tweets {
+                    print ("\(tweet.text!)")
+                }
                 
             }, failure: { (task: URLSessionDataTask?, error: Error) in
                 print("Failed in getting tweets")
                 print ("error: \(error.localizedDescription)")
                 
             })
-            */
+            
 
         }, failure: { (error: Error?) in
             print ("error: \(error?.localizedDescription)")
