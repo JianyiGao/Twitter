@@ -35,7 +35,7 @@ class User: NSObject {
     
     class var currentUser: User?{
         get {
-            if _currentUser != nil{
+            if _currentUser == nil{
                 let defaults = UserDefaults.standard
                 let userData = defaults.object(forKey: "currentUserData") as? Data
                 
@@ -59,7 +59,7 @@ class User: NSObject {
                 defaults.set(data, forKey: "currentUserData")
                 
             } else {
-                defaults.set(nil, forKey: "currentUserData")
+                defaults.removeObject(forKey: "currentUserData")
             }
            
             defaults.synchronize() // Save to disk
