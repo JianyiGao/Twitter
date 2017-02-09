@@ -31,7 +31,7 @@ class LoginViewController: UIViewController {
             self.performSegue(withIdentifier: "LoginSegue", sender: nil)
             
         }, failure: { (error: Error) in
-            print ("Error: \(error.localizedDescription)")
+            print ("Error in onLoginButton: \(error.localizedDescription)")
         })
         
         

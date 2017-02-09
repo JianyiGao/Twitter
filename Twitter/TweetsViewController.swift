@@ -23,7 +23,7 @@ class TweetsViewController: UIViewController {
                 print(tweet.text!)
             }
         }, failure: { (error: Error) -> () in
-            print(error.localizedDescription)
+            print("Error in viewDidLoad: \(error.localizedDescription)")
         })
 
         // Do any additional setup after loading the view.
@@ -34,6 +34,9 @@ class TweetsViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func onLogoutButton(_ sender: Any) {
+        TwitterClient.sharedInstance?.logout()
+    }
 
     /*
     // MARK: - Navigation

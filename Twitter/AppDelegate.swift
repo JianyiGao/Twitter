@@ -17,6 +17,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        // If user has already loggedin, instead of going to login screen, go to tweets screen
+        if User.currentUser != nil {
+            print ("There is a current user")
+            
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyboard.instantiateViewController(withIdentifier: "TweetsNavigationController")
+            
+            window?.rootViewController = vc // Choose the initial view controller 
+            
+        } else {
+            print("There is no current user")
+        }
+        
+        // Whenever anyone post "UserDidLogout" as a notification, this part will run
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "UserDidLogout"), object: nil, queue: OperationQueue.main) { (Notification) in
+            
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyboard.instantiateInitialViewController()
+            // which is the login view controller 
+            
+            self.window?.rootViewController = vc // Choose the initial view controller
+            
+        }
+        
         return true
     }
 
